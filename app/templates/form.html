@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block content %}
+
+    <script src="{{ url_for('static', filename='js/whoisxml.js') }}"> </script>
+    <script src="{{ url_for('static', filename='js/menus.js') }}"> </script>
+
+    {% if ip_str is defined %}
+        <script> $(document).ready(fetchIPInfo("{{ip_str}}")); </script>
+    {% endif %}
+
+    <div class="row">
+      <div class="col-md-4" >
+        <div class="panel panel-default">
+          <div class="panel-heading"><h3 class="panel-title">Create Block</h3></div>
+          <div class="panel-body">
+              <div class="row">
+                  <div class="input-group">
+                      {{ wtf.quick_form(form) }}
+                      <br> <br> <br> <br> <br> <br><br>
+                  </div>
+              </div>
+          </div>
+        </div>
+      </div> <!-- end col  -->
+
+      <!-- Whois -->
+      <div class="col-md-4" >
+          <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Whois Data</h3>
+            </div>
+            <div class="panel-body">
+                <table id="WhoisData" class="table table-condensed table-hover table-bordered" >
+                    <tbody>
+                        <tr>
+                            <td><strong>Hostnames</strong></td>
+                            <td style="width: 70%;">   </td>
+                        </tr>
+                        <tr>
+                        <td><strong>Registrant </strong></td>
+                        <td style="width: 70%;">   </td>
+                        </tr>
+                        <tr>
+                        <td><strong>Email</strong></td>
+                        <td>     </td>
+                        </tr>
+                        <tr>
+                        <td><strong>Registar</strong></td>
+                        <td>     </td>
+                        </tr>
+                        <tr>
+                        <td><strong>City</strong></td>
+                        <td>     </td>
+                        </tr>
+                        <tr>
+                        <td><strong>Country</strong></td>
+                        <td>     </td>
+                        </tr>
+                        <tr>
+                        <td><strong>Created</strong></td>
+                        <td>     </td>
+                        </tr>
+                        <tr>
+                        <td><strong>Updated</strong> </td>
+                        <td>     </td>
+                        </tr>
+                        <tr>
+                        <td><strong>Expires</strong> </td>
+                        <td>     </td>
+                        </tr>
+                        <tr>
+                        <td><strong>Name Servers</strong></td>
+                        <td>     </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div> <!-- end panel body -->
+          </div>
+      </div> <!-- end col -->
+
+      <!-- Malware Lookup-->
+      <div class="col-md-4" >
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Intelligence Feeds</h3>
+          </div>
+          <div class="panel-body">
+            <div class="list-group">
+                <div class="btn-group btn-group-lg btn-group-vertical btn-block">
+                    <button type="button" class="btn btn-lg btn-default disabled"  id="internal_status">Internal Knowledge</button>
+                    <button type="button" class="btn btn-lg btn-default disabled"  id="alexa_status">Alexa Top 1M</button>
+
+                    <button type="button" class="btn btn-lg btn-default disabled"  id="mdl_status">Malware Domain List</button>
+                    <!--
+                    <button type="button" class="btn btn-lg btn-default disabled"  id="ses_status">REN-ISAC SES</button>
+                    -->
+                    <button type="button" class="btn btn-lg btn-default disabled"  id="et_status">Emerging Threats</button>
+                    <button type="button" class="btn btn-lg btn-default disabled"  id="phishtank_status">Phish Tank</button>
+                </div>
+            </div>
+          </div> <!-- End Panel body --> <br> <br> <br> <br> <br> <br>
+        </div>
+      </div> <!-- End col-md-4-->
+    </div> <!-- end row -->
+
+{% endblock %}

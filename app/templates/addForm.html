@@ -1,0 +1,203 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% macro render_field(field) %}
+  <dt>{{ field.label }}
+  <dd>{{ field(**kwargs)|safe }}
+  {% if field.errors %}
+    <ul class=errors>
+    {% for error in field.errors %}
+      <li>{{ error }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+  </dd>
+{% endmacro %}
+
+
+{% block content %}
+
+    <link rel="stylesheet" href="/static/css/custom.css">
+    <script src="{{ url_for('static', filename='js/whoisxml.js') }}"> </script>
+    <script src="{{ url_for('static', filename='js/menus.js') }}"> </script>
+
+    {% if address is defined %}
+        <!--- <script> $(document).ready(fetchIPInfo("{{address}}")); </script> -->
+    {% endif %}
+
+    {% if form.errors %}
+        <ul class="errors hidden">
+            {% for field_name, field_errors in form.errors|dictsort if field_errors %}
+                {% for error in field_errors %}
+                    <li>{{ form[field_name].label }}: {{ error }}</li>
+                {% endfor %}
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+
+    <div class="row">
+      <div class="col-md-4" id="blockColumn">
+        <div class="panel panel-default">
+          <div class="panel-heading"><h3 class="panel-title">Create Block</h3></div>
+              <div class="panel-body">
+                  <div class="row">
+                      <div class="container-fluid">
+                        <div class="input-group">
+                            <form method="post" action="/addBlock" id="blockForm">
+                                <dl>
+                                    <div class="container-fluid" width="66%">
+                                        <div class="row hidden"> {{ form.csrf_token }} </div>
+                                        <div class="row" id="addressInput"> {{ render_field(form.address) }} </div>
+                                        <div class="row"> {{ render_field(form.notes) }} </div>
+                                        <div class="row"> {{ render_field(form.duration) }} </div>
+                                        <div class="row"> </div>
+                                        <div class="row">
+                                            <table class="table" style="border-top: none;">
+                                                <tr style="border-top: none">
+                                                    <td style="border-top: none;"> {{ render_field(form.investigate) }} </td>
+                                                    <td style="border-top: none;"> {{ render_field(form.submitBlock) }} </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </dl>
+                            </form> <br> <br> <br> <br> <br> <br><br>
+                        </div> <!-- end input-group -->
+                      </div>
+                  </div> <!-- end row -->
+              </div> <!-- end panel-body -->
+        </div> <!-- end dropdown -->
+      </div> <!-- end "panel panel-default" -->
+
+      <!-- Whois -->
+      <div class="col-md-4" id="whoisColumn">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Whois Data</h3>
+            </div>
+            <div class="panel-body">
+                <table id="WhoisData" class="table table-condensed table-hover table-bordered" >
+                    <tbody>
+                        <tr>
+                            <td><strong>Hostnames</strong></td>
+                            <td style="width: 70%;">   </td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>Registrant </strong></td>
+                            <td style="width: 70%;">   </td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>Email</strong></td>
+                            <td>     </td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>Registar</strong></td>
+                            <td>     </td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>City</strong></td>
+                            <td>     </td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>Country</strong></td>
+                            <td>     </td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>Created</strong></td>
+                            <td>     </td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>Updated</strong> </td>
+                            <td>     </td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>Expires</strong> </td>
+                            <td>     </td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>Name Servers</strong></td>
+                            <td>     </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div> <!-- end panel body -->
+          </div>
+      </div> <!-- end col -->
+
+      <!-- Malware Lookup-->
+      <div class="col-md-4" id="intelColumn">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Intelligence Feeds</h3>
+          </div>
+          <div class="panel-body">
+            <div class="list-group">
+                <div class="btn-group btn-group-lg btn-group-vertical btn-block">
+                    <!-- these are probably good -->
+                    <button type="button" class="btn btn-lg btn-default disabled hidden"  id="related_status"
+                            data-toggle="popover" title="Related Info" data-placement="left" popover_content="">
+                        Related Info
+                    </button>
+
+                    <button type="button" class="btn btn-lg btn-default disabled"
+                            data-toggle="popover" title="Notes" data-placement="left"
+                            id="internal_status" popover_content="">
+                            Available Notes
+                    </button>
+
+                    <button type="button" class="btn btn-lg btn-default disabled" id="alexa_status"
+                             data-toggle="popover" title="Alexa Intel" data-placement="left" popover_content="">
+                             Alexa Top Sites
+                    </button>
+
+                    <!-- these are probably bad-->
+
+                    <button type="button" class="btn btn-lg btn-default disabled"  id="mdl_status"
+                            data-toggle="popover" title="MDL Data" data-placement="left" popover_content="">
+                            Malware Domain List
+                    </button>
+
+                    <button type="button" class="btn btn-lg btn-default disabled"  id="et_status"
+                            data-toggle="popover" title="Emerging Threats Intel" data-placement="left"
+                            popover_content="">
+                            Emerging Threats
+                    </button>
+
+                    <button type="button" class="btn btn-lg btn-default disabled"  id="phishtank_status"
+                            data-toggle="popover" title="PhishTank Intel" data-placement="left" popover_content="">
+                            phishTank
+                    </button>
+
+                    <button type="button" class="btn btn-lg btn-default disabled"  id="ses_status"
+                            data-toggle="popover" title="SES Intel" data-placement="left" popover_content="">
+                            REN-ISAC SES
+                    </button>
+
+                    <button type="button" class="btn btn-lg btn-default disabled"  id="dshield_status"
+                            data-toggle="popover" title="DShield Intel" data-placement="left" popover_content="">
+                            DShield
+                    </button>
+
+                    <button type="button" class="btn btn-lg btn-default disabled"  id="malDomains_status"
+                            data-toggle="popover" title="Malware Domains Intel"
+                            data-placement="left" popover_content="">
+                            Malware Domains
+                    </button>
+                </div>
+            </div>
+          </div> <!-- End Panel body --> <br> <br> <br> <br> <br> <br>
+        </div>
+      </div> <!-- End col-md-4-->
+    </div> <!-- end row -->
+
+{% endblock %}

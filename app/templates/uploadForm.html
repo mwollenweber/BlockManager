@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+
+
+{% block content %}
+    <script src="{{ url_for('static', filename='js/whoisxml.js') }}"> </script>
+    <script src="{{ url_for('static', filename='js/menus.js') }}"> </script>
+
+    {% if ip_str is defined %}
+        <script> $(document).ready(fetchIPInfo("{{ip_str}}")); </script>
+    {% endif %}
+
+    <div class="row">
+        <div class="col-md-4" >
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Create Block</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="input-group">
+                        {{ wtf.quick_form(form) }}  <br> <br> <br> <br> <br> <br> <br>
+                    </div>
+                </div> <!-- end body panel -->
+            </div><!-- end panel panel-default -->
+        </div> <!-- end col -->
+    </div> <!-- end row>
+
+{% endblock %}

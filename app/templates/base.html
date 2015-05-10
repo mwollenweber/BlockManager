@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% block head %}
+        <title>Block Manager{% block title %}{% endblock %}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="">
+        <meta name="keywords" content="Block Manager">
+        <meta name="author" content="Matthew Wollenweber">
+        <meta name="copyright" content="Insomniac Technology 2015">
+        <meta charset="utf-8">
+
+        <!-- Local compiled jquery -->
+        <script src="/static/js/jquery.min.js"></script>
+
+         <!-- Local compiled and minified CSS -->
+        <link rel="stylesheet" type="text/css" href="/static/bootstrap/css/bootstrap.min.css">
+
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="/static/bootstrap/css/bootstrap-theme.min.css">
+
+        <!-- Local compiled and minified JavaScript -->
+        <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+
+        <script type="text/javascript" charset="utf8" src="/static/js/jquery.dataTables.js"></script>
+        <script type="text/javascript" language="javascript" src="/static/js/dataTables.bootstrap.js"></script>
+        <link rel="shortcut icon" href="{{ url_for('static', filename='ico/favicon.ico') }}">
+
+    {% endblock %}
+  </head>
+  <body>
+    {% block navbar %}
+        <nav class="navbar navbar-inverse" role="navigation">
+          <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-8">
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                    <div class="navbar-header">
+                      <button type="button" class="navbar-toggle" data-toggle="collapse"
+                              data-target="#bs-example-navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                      </button>
+                      <a class="navbar-brand" href="#">Block Manager</a>
+                    </div>
+
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                          <ul class="nav navbar-nav">
+                               <li class="active">
+                               {% if current_user.isAnonymous() %}
+                                    <li><a href="/about">About Block Manager</a></li>
+                                    <li><a href="/auth/register">Register</a></li>
+                                    <li><a href="/auth/login">Login</a></li>
+                               {% endif %}
+
+                               {% if not current_user.isAnonymous()  and not current_user.isDisabled() %}
+                                   <li class="dropdown">
+                                      <a href="#" class="dropdown-toggle" data-toggle="dropdown">Account<b class="caret"></b></a>
+                                      <ul class="dropdown-menu">
+                                        <li><a href="/auth/change-password">Change Password</a></li>
+
+                                        {% if  not current_user.isConfirmed() %}
+                                            <li><a href="/auth/confirm">Resend Confirmation </a></li>
+                                        {% endif %}
+                                        <li><a href="/contact">Contact</a></li>
+                                        <li><a href="/auth/logout">Logout</a></li>
+                                      </ul>
+                                    </li>
+                               {% endif %}
+
+                               {% if current_user.isAdmin() and not current_user.isDisabled() %}
+                                     <li class="dropdown">
+                                          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin<b class="caret"></b></a>
+                                          <ul class="dropdown-menu">
+                                                <li><a href="/admin">Admin</a></li>
+                                                <li><a href="/admin/userview/">Manage Users</a></li>
+                                                <li><a href="/admin/ipblockview/">Manage Blocks </a></li>
+                                                <li><a href="/admin/authenticatedfileadmin/">Manage Files</a></li>
+                                                <li><a href="/admin/protectedrangesview/">Manage Protected Ranges </a></li>
+                                                <li><a href="/admin/alexaview/">Manage Alexa </a></li>
+                                          </ul>
+                                     </li> <!-- ends Admin dropdown-->
+                               {% endif %}
+
+                                <li class="dropdown">
+                                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Blocking <b class="caret"></b></a>
+                                  <ul class="dropdown-menu">
+                                    {% if current_user.isSubmitter()  and not current_user.isDisabled() %}
+                                        <li role="presentation" class="dropdown-header">Analyst</li>
+                                            <li><a href="/addBlock">Add Blocks</a></li>
+                                            <li><a href="/viewBlocks">View Blocks</a></li>
+                                            <li class="disabled"><a href="#">Manage BlockLists</a></li>
+                                            <li class="disabled"><a href="/uploadBlockList">Upload BlockList</a></li>
+                                    {% endif %}
+
+                                    {% if current_user.isApprover() and not current_user.isDisabled() %}
+                                        <li role="presentation" class="divider"></li>
+                                        <li role="presentation" class="dropdown-header">Approver</li>
+                                        <li><a href="/viewBlocks">Approve Blocks</a></li>
+                                        <li><a href="/admin/ipblockview/">Edit Blocks</a></li>
+                                    {% endif %}
+                                  </ul>
+                                </li>
+                          </ul>
+                    </div><!-- navbar-collapse -->
+                </div> <!-- end col -->
+                <div class="col-md-4" style="vertical-align: middle">
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2" style="vertical-align: middle">
+                        <ul class="nav navbar-nav navbar-right" style="vertical-align: middle"> <br>
+                            <button type="button" class="btn btn-default btn-xs">
+                                <li><a href="/addBlock">
+                                    <span class="glyphicon glyphicon-plus" aria-hidden="true"> Block </span></a>
+                                </li>
+                            </button>
+                        </ul><br>
+                    </div>
+                </div>
+            </div><!-- row -->
+          </div><!-- /.container-fluid -->
+        </nav>
+    {% endblock %}
+
+    <div id="alert_placeholder"></div>
+        <div class="container page">
+        <div id="mainBody" class="content">
+          {% block content %}
+
+              {% if isProd == True %}
+                <h1>These Blocks are LIVE on Production NGFW </h1>
+              {% endif %}
+
+              {% with messages = get_flashed_messages() %}
+                <ul class=flashes>
+                    {% if messages %}
+                      <div class="alert alert-warning alert-dismissible" role="alert">
+                          {% for message in messages %}
+                              <li>{{ message }}</li>
+                          {% endfor %}
+                      </div>
+                    {% endif %}
+                </ul>
+              {% endwith %}
+
+          {% endblock %}
+        </div> <!-- ends content-->
+        <div id="footer" class="content">
+            <hr>
+            {% block footer %}
+                <br><br><br><br>
+                <footer class="footer">
+                    {% if not current_user.isAnonymous() %}
+                        Current User:  {{ current_user.email }}
+                    {% endif %}
+                </footer>
+            {% endblock %}
+        </div>
+    </div> <!-- ends container page-->
+  </body>
+</html>

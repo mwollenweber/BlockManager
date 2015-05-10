@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %} - Home{% endblock %}
+{% block content %}
+
+<div class="container">
+    <div class="col-md-4">
+    {% if message %}
+    {{message}}
+    {% endif %}
+
+    </div> <!-- end col-md4-->
+</div><!-- end container-->
+
+
+{% endblock %}
+
