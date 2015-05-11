@@ -8,7 +8,12 @@ TODO (short)
 
 1. Support CIDR notation (as ranges not as cidr -> IP lists)
 2. Actually implement the p2p portion
-3. 
+3. Compromised/vulnerable block
+* Enter IP
+* System form emails user/owner
+* Countdown clock begins
+* If no mitigation my clock ending -> blocked
+4. meh
 
 Copyright
 ------------
