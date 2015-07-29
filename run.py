@@ -19,10 +19,16 @@ import traceback
 from app import create_app
 
 if __name__ == '__main__':
-    app = create_app("production")
     try:
-        app.run(debug=True, host='0.0.0.0', port=80)
+        port = int(os.environ.get("PORT", 5000))
+        myapp = create_app("development")
+        myapp.run(debug=True, host='0.0.0.0', port=8000)
+
+    except KeyboardInterrupt:
+        print "KeyboardInterrupt! Exiting."
+        sys.exit(0)
 
     except:
-        traceback.print_exc(file=sys.stderr)
-        app.run(debug=True, host='0.0.0.0', port=8000)
+        exc_type, exc_value, exc_traceback = sys.exc_info()
+        traceback.print_exception(exc_type, exc_value, exc_traceback, limit=5, file=sys.stderr)
+        sys.exit(-1)
