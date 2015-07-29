@@ -32,7 +32,7 @@ def get_session():
 
 def init_db():
     import models
-    import services.alexa.models
+    #import services.alexa.models
     import services.mdl.models
     import services.et.models
     import services.phishtank.models

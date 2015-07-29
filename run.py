@@ -15,6 +15,7 @@ __version__ = '0.0.1'
 __date__ = '2015/01/06'
 
 import sys
+import os
 import traceback
 from app import create_app
 
