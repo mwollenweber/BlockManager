@@ -7,7 +7,7 @@ Copyright Matthew Wollenweber 2015
 import os
 basedir = os.path.abspath(os.path.dirname(__file__))
 
-#SQLALCHEMY_DATABASE_URI = 'mysql://blockmanager:bmanager@localhost/BlockManager'
+#SQLALCHEMY_DATABASE_URI = 'mysql://blockmanager:bmanager@tkbinul42qqw5xhi.cbetxkdyhwsb.us-east-1.rds.amazonaws.com/BlockManager'
 SQLALCHEMY_DATABASE_URI = os.environ.get('JAWSDB_URL')
 
 
@@ -28,7 +28,7 @@ class Config:
 
 class DevelopmentConfig(Config):
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = 'mysql://blockmanager:bmanager@localhost/BlockManager'
+    SQLALCHEMY_DATABASE_URI = 'mysql://blockmanager:bmanager@tkbinul42qqw5xhi.cbetxkdyhwsb.us-east-1.rds.amazonaws.com/BlockManager'
 
 
 class TestingConfig(Config):
