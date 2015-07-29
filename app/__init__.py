@@ -54,8 +54,9 @@ def create_app(config_name):
     from .auth import auth as auth_blueprint
     app.register_blueprint(auth_blueprint, url_prefix='/auth')
     
-    from .services.alexa import alexa as alexa_blueprint
-    app.register_blueprint(alexa_blueprint, url_prefix="/alexa")
+    #disabling alexa for heroku's limited db options
+    #from .services.alexa import alexa as alexa_blueprint
+    #app.register_blueprint(alexa_blueprint, url_prefix="/alexa")
     
     from .services.mdl import mdl as mdl_blueprint
     app.register_blueprint(mdl_blueprint, url_prefix="/mdl")
