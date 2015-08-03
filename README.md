@@ -1,7 +1,8 @@
 BlockManager
 ============
 
-Ported from a quick prototype at GW. 
+Example instance on Heroku: https://shielded-lowlands-6440.herokuapp.com/
+
 
 TODO (short)
 ------------
