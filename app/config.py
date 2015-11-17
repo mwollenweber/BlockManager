@@ -7,7 +7,7 @@ Copyright Matthew Wollenweber 2015
 import os
 basedir = os.path.abspath(os.path.dirname(__file__))
 
-#SQLALCHEMY_DATABASE_URI = 'mysql://blockmanager:bmanager@tkbinul42qqw5xhi.cbetxkdyhwsb.us-east-1.rds.amazonaws.com/BlockManager'
+SQLALCHEMY_DATABASE_URI = 'mysql://blockmanager:bmanager@tkbinul42qqw5xhi.cbetxkdyhwsb.us-east-1.rds.amazonaws.com/BlockManager'
 SQLALCHEMY_DATABASE_URI = os.environ.get('JAWSDB_URL')
 
 
@@ -16,7 +16,7 @@ class Config:
     SSL_DISABLE = False
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
     SQLALCHEMY_RECORD_QUERIES = True
-    MAIL_SERVER = 'smtp.gwu.edu'
+    MAIL_SERVER = 'smtp.gmail.com'
     MAIL_PORT = 25
     MAIL_USE_TLS = False
     MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
