@@ -17,8 +17,6 @@ Mako==1.0.1
 MarkupSafe==0.23
 mercurial==3.3.3
 MySQL-python==1.2.5
-netaddr==0.7.14
-oauth2client==1.4.7
 psutil==2.2.1
 pyasn1==0.1.7
 pyasn1-modules==0.0.5
