@@ -6,12 +6,12 @@ import xml.etree.ElementTree as etree
 from json import dumps
 from socket import gethostbyaddr
 from flask import jsonify
-
+from app.config import WHOIS_USER, WHOIS_PASSWD
 ########################
 # Fill in your details #
 ########################
-username = "username"
-password = "password"
+username = WHOIS_USER
+password = WHOIS_USER
 
 def getHostnames(target):
     results = []

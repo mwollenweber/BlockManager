@@ -7,8 +7,15 @@ Copyright Matthew Wollenweber 2015
 import os
 basedir = os.path.abspath(os.path.dirname(__file__))
 
-SQLALCHEMY_DATABASE_URI = 'mysql://blockmanager:bmanager@tkbinul42qqw5xhi.cbetxkdyhwsb.us-east-1.rds.amazonaws.com/BlockManager'
-SQLALCHEMY_DATABASE_URI = os.environ.get('JAWSDB_URL')
+DEBUG = True
+SQLALCHEMY_DATABASE_URI = os.environ.get('BLOCKMANAGER_DB_URL', 'mysql://blockmanager:bmanager@localhost/BlockManager' )
+WHOIS_USER = os.environ.get('WHOIS_USER', None)
+WHOIS_PASSWD = os.environ.get('WHOIS_PASSWD', None)
+MDL_URL = "http://www.malwaredomainlist.com/mdlcsv.php"
+ET_URL = "https://rules.emergingthreats.net/fwrules/emerging-Block-IPs.txt"
+
+PHISHTANK_URL = ''
+PHISHTANK_API_KEY = os.environ.get('PHISHTANK_API_KEY', None)
 
 
 class Config:
@@ -28,7 +35,7 @@ class Config:
 
 class DevelopmentConfig(Config):
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = 'mysql://blockmanager:bmanager@tkbinul42qqw5xhi.cbetxkdyhwsb.us-east-1.rds.amazonaws.com/BlockManager'
+    SQLALCHEMY_DATABASE_URI = 'mysql://blockmanager:bmanager@localhost/BlockManager'
 
 
 class TestingConfig(Config):

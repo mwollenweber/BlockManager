@@ -12,7 +12,8 @@ import sys
 import traceback
 import zipfile
 import csv
-from config import url, DEBUG, SQLALCHEMY_DATABASE_URI
+from app.config import DEBUG, SQLALCHEMY_DATABASE_URI
+from app.config import ET_URL as url
 
 sys.path.append("../../")
 sys.path.append("../../app")
@@ -44,6 +45,7 @@ from app.database import Base
 
 class etModel(Base):
     __tablename__ = "et"
+    __table_args__ = {'extend_existing': True}
     start = Column(INTEGER(unsigned = True), index=True, primary_key=True, autoincrement=False)
     end = Column(INTEGER(unsigned = True), index=True, primary_key=True, autoincrement=False)
     tdstamp = Column(DATETIME, index = True, default=datetime.utcnow)

@@ -83,6 +83,7 @@ def load_user(user_id):
 
 class protectedRanges(Base):
     __tablename__ = 'protectedRanges'
+    __table_args__ = {'extend_existing': True}
     id = db.Column(db.Integer, primary_key=True)
     start = db.Column(INTEGER(unsigned=True), index=True)
     end = db.Column(INTEGER(unsigned=True), index=True)
