@@ -134,7 +134,7 @@ class alexaModel(Base):
 
     def update(self):
         domain_list = self.fetch()
-        domain_list.reverse()
+        #domain_list.reverse()
         domain_list = domain_list[0:self.max_rank]
 
         print "Len of domains = %s" % len(domain_list)
@@ -214,6 +214,6 @@ class alexaModel(Base):
 
 
 if __name__ == "__main__":
-    ax = alexaModel(max_rank=10000, max_threads=8)
+    ax = alexaModel(max_rank=1000, max_threads=8)
     ax.update()
     ax.dumpAsCSV()
