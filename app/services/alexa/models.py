@@ -29,12 +29,9 @@ from struct import unpack, pack
 from sqlalchemy.exc import IntegrityError, InvalidRequestError, OperationalError
 from sqlalchemy import Column, String
 
-# ensure SQLALchemy pool_size is increased to handle several threads
-# db_session = scoped_session(sessionmaker(autocommit=False, autoflush=True, bind=engine))
 from app.database import Base, db_session
 
 
-# Store IP (v4) addresses as INTs
 def int2ip(addr):
     return inet_ntoa(pack("!I", addr))
 
@@ -54,17 +51,12 @@ class alexaModel(Base):
     rank = Column(INTEGER(unsigned=True), index=True, default=0)
 
     def __init__(self, ip=None, domain=None, max_rank=10000, max_threads=16):
-        if ip is not None:
+        if ip:
             self.ip = ip2int(ip)
 
-        if domain is not None:
-            self.domain = domain
-
-        self.max_rank = max_rank
-        self.max_threads = max_threads
-        if self.max_threads > self.max_rank:
-            self.max_threads = self.max_rank - 1
-
+        self.domain = domain
+        self.max_rank = min(max_rank, 1000000)
+        self.max_threads = min(max_threads, self.max_rank - 1)
         self.url = url
         self.updated = datetime.utcnow()
 
@@ -134,10 +126,8 @@ class alexaModel(Base):
 
     def update(self):
         domain_list = self.fetch()
-        #domain_list.reverse()
         domain_list = domain_list[0:self.max_rank]
-
-        print "Len of domains = %s" % len(domain_list)
+        domain_list.reverse()
 
         self.thread_list = []
         (rank, domain) = domain_list.pop()
@@ -214,6 +204,6 @@ class alexaModel(Base):
 
 
 if __name__ == "__main__":
-    ax = alexaModel(max_rank=1000, max_threads=8)
+    ax = alexaModel(max_rank=100000, max_threads=8)
     ax.update()
     ax.dumpAsCSV()
