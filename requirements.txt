@@ -30,7 +30,7 @@ pyasn1-modules==0.0.5
 pycparser==2.12
 pyliblzma==0.5.3
 pytricia==0.2.1
-PyYAML==3.11
+PyYAML==5.4
 requests==2.6.2
 roman==2.0.0
 rsa==3.1.4
